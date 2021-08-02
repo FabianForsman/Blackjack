@@ -32,15 +32,12 @@ std::string Blackjack::getName() {
 int Blackjack::getTot(int hand) {
 	if (tot[hand][0] > tot[hand][1] || tot[hand][1] > 21)
 		return tot[hand][0];
-
 	else if (tot[hand][0] < tot[hand][1])
 		return tot[hand][1];
-
 	else if (tot[hand][0] == tot[hand][1])
 		return tot[hand][0];
 
-	else
-		return 0;
+	return 0;
 }
 
 int Blackjack::ifSecHand() {
@@ -69,7 +66,7 @@ void Blackjack::action(int hand) {
 				Blackjack::actions.erase(actions.begin() + i);
 		}
 
-	if(!secHand)
+	if (!secHand)
 		if (handNum[hand][0] != handNum[hand][1] || handNum[hand][0] > 9)
 			for (int i = 0; i < actions.size(); i++) {
 				if (actions[i] == "Split")
@@ -85,16 +82,13 @@ void Blackjack::action(int hand) {
 
 	if (Blackjack::actions[action - 1] == "Hit")
 		draw(hand);
-
 	else if (Blackjack::actions[action - 1] == "Stay") {
 		std::cout << "You decided to stay.\n";
 		line();
 		stayfunc(hand);
 	}
-
 	else if (Blackjack::actions[action - 1] == "Split")
 		split();
-
 	else if (Blackjack::actions[action - 1] == "Double Down")
 		doubleDown(hand);
 }
@@ -110,7 +104,7 @@ void Blackjack::split() {
 	Blackjack::handName[1].push_back(Blackjack::handName[0][1]);
 	Blackjack::handName[0].pop_back();
 
-	for(int i = 0;i<actions.size();i++)
+	for (int i = 0; i < actions.size(); i++)
 		if (actions[i] == "Double Down")
 			Blackjack::actions.erase(actions.begin() + i);
 
@@ -130,7 +124,8 @@ void Blackjack::doubleDown(int hand) {
 	std::cout << "Your bet has been doubled.\n";
 	line();
 	draw(hand);
-	handPrint(hand);
+	if (tot[hand][1] < 22)
+		handPrint(hand);
 	stayfunc(hand);
 }
 
@@ -197,7 +192,6 @@ void Blackjack::draw(int hand) {
 					else
 						std::cout << name << " drew " << card << " of " << nameType << ".\n";
 				}
-
 				else {
 					if (name == "Dealer" && handNum[hand].size() == 2)
 						std::cout << name << " drew a second card.\n";
@@ -215,7 +209,6 @@ void Blackjack::draw(int hand) {
 
 				if (nameNum == "number")
 					std::cout << name << " drew " << card << " of " << nameType << "\nfor their first hand.\n";
-
 				else
 					std::cout << name << " drew " << nameNum << " of " << nameType << "\nfor their first hand.\n";
 
@@ -227,7 +220,6 @@ void Blackjack::draw(int hand) {
 
 				if (nameNum == "number")
 					std::cout << name << " drew " << card << " of " << nameType << "\nfor their second hand.\n";
-
 				else
 					std::cout << name << " drew " << nameNum << " of " << nameType << "\nfor their second hand.\n";
 
@@ -239,7 +231,6 @@ void Blackjack::draw(int hand) {
 		Blackjack::cardsName.erase(cardsName.begin() + random);
 
 		line();
-		Sleep(200);
 	}
 }
 
@@ -255,7 +246,6 @@ void Blackjack::addTot(int hand, int card) {
 		else
 			hand[tot][1] += 1;
 	}
-
 	else
 		tot[hand][1] += card;
 }
@@ -267,38 +257,37 @@ void Blackjack::handPrint(int hand) {
 	std::cout << name << "'s ";
 
 	if (secHand) {
-		if(hand == 0)
+		if (hand == 0)
 			std::cout << "first ";
-
 		if (hand == 1)
 			std::cout << "second ";
 	}
 
 	std::cout << "hand contains\n\n";
-	
+
 	for (int i = 0; i < handNum[hand].size(); i++) {
 		card = handNum[hand][i];
 
 		switch (card) {
-			case 1:
-				cardName = "Ace";
-				std::cout << cardName << " of " << handName[hand][i] << std::endl;
-				break;
-			case 11:
-				cardName = "Jack";
-				std::cout << cardName << " of " << handName[hand][i] << std::endl;
-				break;
-			case 12:
-				cardName = "Queen";
-				std::cout << cardName << " of " << handName[hand][i] << std::endl;
-				break;
-			case 13:
-				cardName = "King";
-				std::cout << cardName << " of " << handName[hand][i] << std::endl;
-				break;
-			default:
-				std::cout << card << " of " << handName[hand][i] << std::endl;
-				break;
+		case 1:
+			cardName = "Ace";
+			std::cout << cardName << " of " << handName[hand][i] << std::endl;
+			break;
+		case 11:
+			cardName = "Jack";
+			std::cout << cardName << " of " << handName[hand][i] << std::endl;
+			break;
+		case 12:
+			cardName = "Queen";
+			std::cout << cardName << " of " << handName[hand][i] << std::endl;
+			break;
+		case 13:
+			cardName = "King";
+			std::cout << cardName << " of " << handName[hand][i] << std::endl;
+			break;
+		default:
+			std::cout << card << " of " << handName[hand][i] << std::endl;
+			break;
 		}
 	}
 
@@ -306,12 +295,10 @@ void Blackjack::handPrint(int hand) {
 
 	if (tot[hand][0] == tot[hand][1] || tot[hand][1] > 21 || tot[hand][1] == 0)
 		std::cout << tot[hand][0] << " total.\n";
-
 	else if (tot[hand][1] < 22 && tot[hand][1] > 0)
 		std::cout << tot[hand][0] << " or " << tot[hand][1] << " total.\n";
-	
+
 	line();
-	Sleep(500);
 }
 
 void Blackjack::deck() {
@@ -320,18 +307,18 @@ void Blackjack::deck() {
 			for (int j = 1; j < 14; j++) {
 				Blackjack::cardsNum.push_back(j);
 				switch (i) {
-					case 0:
-						Blackjack::cardsName.push_back('H');
-						break;
-					case 1:
-						Blackjack::cardsName.push_back('D');
-						break;
-					case 2:
-						Blackjack::cardsName.push_back('S');
-						break;
-					case 3:
-						Blackjack::cardsName.push_back('C');
-						break;
+				case 0:
+					Blackjack::cardsName.push_back('H');
+					break;
+				case 1:
+					Blackjack::cardsName.push_back('D');
+					break;
+				case 2:
+					Blackjack::cardsName.push_back('S');
+					break;
+				case 3:
+					Blackjack::cardsName.push_back('C');
+					break;
 				}
 			}
 }
@@ -343,7 +330,6 @@ void Blackjack::deckPrint() {
 
 			if (cardsNum[i] > cardsNum[i + 1])
 				std::cout << "\n";
-
 			else
 				std::cout << ", ";
 		}

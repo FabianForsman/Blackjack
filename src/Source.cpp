@@ -38,10 +38,11 @@ void game() {
 
 	Blackjack dealer("Dealer");
 	players.push_back(dealer);
-	
+
 	do {
 		if (!Blackjack::deckSize())
 			break;
+
 		system("CLS");
 		std::cout << "Round " << ++round << "!\n";
 		line();
@@ -54,6 +55,7 @@ void game() {
 		for (int i = 0; i < 2; i++)
 			for (int j = 0; j < players.size(); j++)
 				players[j].draw(hand);
+
 		if (Blackjack::deckSize()) {
 			for (int i = 0; i < players.size() - 1; i++) {
 				while (!players[i].ifStay(hand) && players[i].getTot(hand) < 22 && Blackjack::deckSize()) {
@@ -63,9 +65,7 @@ void game() {
 						std::cout << "You've got Blackjack, " << players[i].getName() << "!\n";
 						line();
 						players[i].stayfunc(hand);
-						Sleep(1000);
 					}
-
 					else
 						players[i].action(hand);
 
@@ -74,7 +74,6 @@ void game() {
 						std::cout << "Bust! You went over 21.\n";
 						line();
 						players[i].stayfunc(hand);
-						Sleep(1000);
 					}
 
 					hand = players[i].ifSwap();
@@ -96,7 +95,6 @@ void game() {
 					break;
 			}
 		}
-
 		else
 			break;
 
@@ -106,29 +104,23 @@ void game() {
 					std::cout << players[i].getName();
 					if (players[players.size() - 1].getTot(0) < players[i].getTot(j) || players[players.size() - 1].getTot(0) > 21)
 						std::cout << res[0]; // Win
-
 					else if (players[players.size() - 1].getTot(0) > players[i].getTot(j) || players[i].getTot(j) > 21)
 						std::cout << res[1]; // Loss
-
 					else if (players[players.size() - 1].getTot(0) == players[i].getTot(j))
 						std::cout << res[2]; // Draw
 				}
-
 				else
 					std::cout << players[i].getName() << res[1]; // Loss
 
 				if (players[i].ifSecHand() && j == 0)
 					std::cout << " their first hand.\n";
-
 				else if (j == 1)
 					std::cout << " their second hand.\n";
-
 				else
 					std::cout << ".\n";
 			}
 
 		line();
-		Sleep(1000);
 		std::cout << "Run it back?\nYes/No\n";
 		line();
 		std::cin >> ans;
@@ -138,7 +130,7 @@ void game() {
 			std::cout << "Remaining cards:\n";
 			Blackjack::deckPrint();
 		}
-		Sleep(500);
+
 	} while ((ans == "Y" || ans == "y" || ans == "Yes" || ans == "yes") && Blackjack::deckSize());
 	if (!Blackjack::deckSize())
 		std::cout << "No more cards!\n";
